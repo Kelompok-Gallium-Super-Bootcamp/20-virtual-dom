@@ -3,6 +3,8 @@ const Vue = require('vue').default;
 const { CreateElement } = require('vue');
 const { TaskForm } = require('./task-form');
 const { TaskList } = require('./task-list.js');
+const { NavComp } = require('./nav');
+const { StateComp } = require('./state-div');
 const {
   done,
   cancel,
@@ -15,18 +17,24 @@ const { store$, errorAction, clearErrorAction } = require('../store');
 new Vue({
   el: '#task',
   components: {
+		'navigation': NavComp,
+    'state-page': StateComp,
     'task-form': TaskForm,
     'task-list': TaskList,
   },
   render(CreateElement) {
     return CreateElement('div', [
-      CreateElement(
-        'H3',
-        { props: { workers: this.state.workers } },
-        this.state.error
-      ),
+      CreateElement('navigation'),
+      CreateElement('state-page', {
+        props: {
+          errMsg: this.state.error,
+          load: this.state.loading,
+        },
+      }),
+			CreateElement('h4', 'Buat tugas baru'),
       CreateElement('task-form', { props: { workers: this.state.workers } }),
-      CreateElement('task-list', { props: { tasks: this.state.tasks } }),
+      CreateElement('h4', 'Daftar tugas'),
+			CreateElement('task-list', { props: { tasks: this.state.tasks } }),
     ]);
   },
   data: {

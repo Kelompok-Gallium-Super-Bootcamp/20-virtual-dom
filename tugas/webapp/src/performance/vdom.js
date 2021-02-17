@@ -9,7 +9,7 @@ const { PerfComp } = require('./components/performance-list');
 new Vue({
   el: '#performance-app',
   components: {
-    navigation: NavComp,
+    'navigation': NavComp,
     'state-page': StateComp,
     'performance-list': PerfComp,
   },

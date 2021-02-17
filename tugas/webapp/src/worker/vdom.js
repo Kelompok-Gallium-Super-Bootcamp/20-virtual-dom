@@ -4,23 +4,27 @@ const { register, getList, remove } = require('./async-action');
 const { store$, errorAction, clearErrorAction } = require('./store');
 const { WorkerList } = require('./components/worker-list');
 const { WorkerAdd } = require('./components/add-worker');
+const { NavComp } = require('./components/nav');
+const { StateComp } = require('./components/state-div');
 
 new Vue({
   el: '#app1',
   components: {
+		'navigation': NavComp,
+    'state-page': StateComp,
     'worker-list': WorkerList,
     'add-worker': WorkerAdd,
   },
   render(createElement) {
-    return createElement('hr', [
-      createElement(
-        'p',
-        { class: 'error' },
-        { props: { error: this.state.error } }
-      ),
-      this.state.loading,
-      createElement('p', { class: 'primary' }, 'memuat...'),
-      createElement('h4', 'Daftar Pekerja Baru'),
+    return createElement('div', [
+      createElement('navigation'),
+      createElement('state-page', {
+        props: {
+          errMsg: this.state.error,
+          load: this.state.loading,
+        },
+      }),
+      createElement('h4', 'Daftarkan Pekerja Baru'),
       createElement('add-worker', { props: { worker: this.add } }),
       createElement('h4', 'Daftar Pekerja'),
       createElement('worker-list', { props: { workers: this.state.workers } }),
